@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="list" namespace="/list" extends="struts-default">
+		<!-- name对应的action请求名称,method(不写等于默认方法)默认执行方法是 execute,class定义具体的类 -->
+		<action name="listAction_*" class="com.demo.action.ListAction"	method="{1}">
+			<!-- 接收Action类返回的值，进行跳转指定的页面 -->
+			<result name="getlistok">/WEB-INF/list.jsp</result>
+		</action>
+	</package>
+</struts>

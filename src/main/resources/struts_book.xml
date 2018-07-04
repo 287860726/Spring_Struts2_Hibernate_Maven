@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="book" namespace="/book" extends="struts-default">
+		<action name="bookAction_*" class="com.demo.action.BookAction"	method="{1}">
+			<!-- 接收Action类返回的值，进行跳转指定的页面 -->
+			<result name="getallbookok">/WEB-INF/book.jsp</result>
+			
+			<result name="addBook">/WEB-INF/addBook.jsp</result>
+			<result name="addBookok">/WEB-INF/addBook.jsp</result>
+			<result name="addBookerror">/WEB-INF/addBook.jsp</result>
+
+			<result name="addMoreBook">/WEB-INF/addMoreBook.jsp</result>
+			<result name="addMoreBookok">/WEB-INF/addMoreBook.jsp</result>
+			<result name="addMoreBookerror">/WEB-INF/addMoreBook.jsp</result>
+			
+			<result name="idempty" type="chain">bookAction_getAllBook</result>
+			<result name="deletok" type="chain">bookAction_getAllBook</result>
+			<result name="deleteerror" type="chain">bookAction_getAllBook</result>
+			
+			<result name="updateBookok">/WEB-INF/addBook.jsp</result>
+			<result name="updateBookerror">/WEB-INF/addBook.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<display-name>Spring_Struts2_Hibernate_Maven</display-name>
+
+	<!-- Spring监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- Spring配置文件位置 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:Spring.xml,classpath:Spring_Hibernate.xml</param-value>
+	</context-param>
+
+	<!-- 防止spring内存溢出监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<!-- OpenSessionInViewFilter过滤器 (主要功能是用来把一个Hibernate Session和一次完整的请求过程对应的线程相绑定);它允许在事务提交之后延迟加载显示所需要的对象 -->
+	<!-- 注意：此过滤器必须在struts2的核心过滤器 前面配置才起作用 -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>OpenSessionInViewFilter</filter-name> -->
+<!-- 		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>OpenSessionInViewFilter</filter-name> -->
+<!-- 		<url-pattern>*.action</url-pattern> -->
+<!-- 	</filter-mapping> -->
+
+	<!-- Struts2的核心过滤器配置 -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+	<!-- Struts2过滤器拦截所有的.action请求 -->
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

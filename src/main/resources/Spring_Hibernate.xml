@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/tx    
+        http://www.springframework.org/schema/tx/spring-tx.xsd  
+        http://www.springframework.org/schema/aop  
+        http://www.springframework.org/schema/aop/spring-aop.xsd"> 
+        
+        
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${jdbcusername}" />
+		<property name="password" value="${jdbcpassword}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="${initialSize}"></property>
+		<!-- 连接池最大数量 -->
+		<property name="maxActive" value="${maxActive}"></property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="${maxIdle}"></property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${minIdle}"></property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="${maxWait}"></property>
+	</bean>
+
+	<!-- 配置hibernate session工厂 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<!-- web项目启动时是否更新表结构 -->
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<!-- 系统使用的数据库方言，也就是使用的数据库类型 -->
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<!-- 是否打印Hibernate生成的SQL到控制台 -->
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<!-- 是否格式化打印出来的SQL -->
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.connection.autocommit">${hibernate.autocommit}</prop> 
+			</props>
+		</property>
+
+		<!-- 加载 hibernate 映射文件 （可以使用通配符） -->
+		<property name="mappingLocations" value="classpath:com/demo/entity/*.hbm.xml"></property>
+<!-- 		<property name="mappingResources"> -->
+<!-- 			<list> -->
+<!-- 				<value>Book.hbm.xml</value> -->
+<!-- 				<value>UserT.hbm.xml</value> -->
+<!-- 			</list> -->
+<!-- 		</property>   -->
+	</bean>
+	
+	<!--事务管理 Annotation配置  -->    
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">    
+    	<property name="sessionFactory" ref="sessionFactory"/>    
+    </bean>    
+	<!--开启annotation事务管理    -->  
+    <tx:annotation-driven transaction-manager="txManager"/>   
+	
+
+	<!-- 配置 Spring 的声明式事务 -->
+	<!-- 配置事务管理器 -->
+<!-- 	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"> -->
+<!--         <property name="sessionFactory" ref="sessionFactory"/> -->
+<!--     </bean> -->
+
+	 <!-- 注解方式配置事物 -->
+<!--     <tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+	<!-- 切面，将事物用在哪些对象上 -->
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut id="transactionPointcut" expression="execution(* com.demo.biz.*.*(..))" /> -->
+<!-- 		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" /> -->
+<!-- 	</aop:config> -->
+
+</beans>
